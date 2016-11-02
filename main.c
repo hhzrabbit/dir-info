@@ -14,41 +14,67 @@ void printAll(DIR * theDir){
   struct dirent * entry;
   while (entry = readdir(theDir)){
       printf("\t%s\n", entry -> d_name);
+      printf("\t%d\n", entry -> d_type);
   }
   closedir(theDir);
 }
 
-void printArray(char * arr){
-  while (arr)
-    printf("\t%s\n", arr);
+void printDirs(DIR * theDir){
+  printf("Directories:\n");
+  struct dirent * entry;
+  while (entry = readdir(theDir)){
+    if (entry->d_type != 8){
+      printf("\t%s\n",entry->d_name);
+    }
+  }
 }
 
-void printOrganized(DIR * theDir){
-  char dirs[256];
-  char regFiles[256];
-
+void printRegFiles(DIR * theDir){
+  printf("Regular Files:\n");
   struct dirent * entry;
   while (entry = readdir(theDir)){
     if (entry->d_type == 8){
-      regFiles = * entry->d_name;
-      regFiles++;
-    }
-    else {
-      dirs = * entry->d_name;
-      dirs++;
+      printf("\t%s\n",entry->d_name);
     }
   }
-  printf("Directories:\n");
-  printArray(dirs);
-  printf("Regular files:\n");
-  printArray(regFiles);
-  
-  
-  closedir(theDir);
 }
+
+/* void printOrganized(DIR * theDir){ */
+/*   char * dirs[256]; */
+/*   char * dirPoint = dirs[0]; */
+  
+/*   char * regFiles[256]; */
+/*   char * regFilePoint = regFiles[0]; */
+  
+/*   struct dirent * entry; */
+/*   while (entry = readdir(theDir)){ */
+/*     if (entry->d_type == 8){ */
+/*       printf("%s\n", entry->d_name); */
+/*       regFilePoint = & (entry->d_name); */
+/*       regFilePoint++; */
+/*     } */
+/*     else { */
+/*       dirPoint = & (entry->d_name); */
+
+/*       dirPoint++; */
+/*     } */
+/*   } */
+/*   printf("Directories:\n"); */
+/*   //printArray(dirs); */
+/*   printf("Regular files:\n"); */
+/*   //printArray(regFiles); */
+  
+  
+/*   closedir(theDir); */
+/* } */
 
 int main(){
   DIR * theDir = opendir(".");
-  printAll(theDir);
+  // printAll(theDir);
+
+  printDirs(theDir);
+  rewinddir(theDir);
+  
+  printRegFiles(theDir);
   return 0;
 }
