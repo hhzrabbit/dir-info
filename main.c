@@ -50,7 +50,9 @@ void printAllRhelper(DIR * theDir, char * pathToHere, int amtTabs){
       strcpy(path, pathToHere);
       strcat(path, "/");
       strcat(path, entry->d_name);
-      printAllRhelper(opendir(path), path, (amtTabs + 1));
+      DIR * subdir = opendir(path);
+      printAllRhelper(subdir, path, (amtTabs + 1));
+      closedir(subdir);
     }
   }
 }
@@ -146,7 +148,9 @@ int totalSizeR(DIR * theDir, char * pathToHere){
       strcpy(path, pathToHere);
       strcat(path, "/");
       strcat(path, entry->d_name);
-      total += totalSizeR(opendir(path), path);    
+      DIR * subdir = opendir(path);
+      total += totalSizeR(subdir, path);
+      closedir(subdir);
     }
     else {
       stat(entry->d_name, &buff);
