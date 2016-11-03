@@ -5,4 +5,6 @@ run: dirStats
 	./dirStats
 
 clean:
+	rm dirStats
 	rm *~
+
