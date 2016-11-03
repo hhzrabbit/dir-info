@@ -164,12 +164,12 @@ int totalSizeR(DIR * theDir, char * pathToHere){
 }
 
 void printTotalSize(DIR * theDir){
-  printf("Total size not including subdirs: ");
+  printf("Total size not recursively: ");
   printSizeHuman(totalSize(theDir));
 }
 
 void printTotalSizeR(DIR * theDir, char * pathToHere){
-  printf("Total size including subdirs: ");
+  printf("Total size including subdirs recursively: ");
   printSizeHuman(totalSizeR(theDir, pathToHere));
 }
 
